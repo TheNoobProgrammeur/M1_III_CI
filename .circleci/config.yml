@@ -54,6 +54,12 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - lint
-      - format
-      - test
+      - lint:
+        requires:
+          - build
+      - format :
+        requires:
+          - build
+      - test:
+        requires:
+          - build
