@@ -1,0 +1,114 @@
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10-buster # the primary container, where your job's commands are run
+    steps:
+      - checkout # check out the code in the project directory
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
+      - run: echo $CACHE_VERSION
+      - run: yarn global add node-gyp && yarn install
+      - save_cache:
+          paths: node_modules
+          key: dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+  lint:
+    docker:
+      - image: circleci/node:10-buster
+    steps:
+      - checkout # check out the code in the project directory
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
+      - run: yarn lint
+  format:
+    docker:
+      - image: circleci/node:10-buster
+    steps:
+      - checkout # check out the code in the project directory
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
+      - run: yarn format:check
+  test:
+    docker:
+      - image: circleci/node:10-buster
+    steps:
+      - checkout # check out the code in the project directory
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
+      - run: yarn test:ci
+  e2e:
+    docker:
+      - image: circleci/node:10-buster
+      - image: postgres:9.6.2-alpine
+        environment:
+          POSTGRES_USER: psqluer
+          POSTGRES_PASSOWRD: psqlpassword
+          POSTGRES_DB: psdb
+    steps:
+      - checkout # check out the code in the project directory
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
+      - run:
+          command: yarn test:e2e
+          environment:
+            DATABASE_URL: postgres://psqluer:psqlpassword@localhost:5432/psdb
+            JWT_SECRET: "TOTO"
+            API_PORT: 3000
+            API_HOST: localhost
+            API_PROTOCOL: http
+  docker-build:
+    docker:
+      - image: circleci/node:10-buster
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
+      - setup_remote_docker: 
+          docker_layer_caching: true 
+     # DLC will explicitly cache layers here and try to avoid rebuilding.
+      - run: docker -t app build .
+      - run: docker push aberthier15/m-iii-ci:app
+workflows:
+  version: 2
+  build-test-and-deploy:
+    jobs:
+      - build
+      - lint:
+          requires:
+            - build
+      - format:
+          requires:
+            - build
+      - test:
+          requires:
+            - build
+      - e2e:
+          requires:
+            - build
+      - docker-build:
+          requires:
+            - lint
+            - format
+            - test
+            - e2e
+          filters:
+            branches:
+              only: master
