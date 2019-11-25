@@ -85,7 +85,6 @@ jobs:
   doc:
     docker:
       - image: circleci/node:10-buster
-    working_directory: /tmp
     steps:
       - checkout # check out the code in the project directory
       - restore_cache:
@@ -98,7 +97,7 @@ jobs:
           command: yarn buld:doc
 
       - store_artifacts:
-          path: /tmp/server-doc
+          path: server-doc
           destination: artifact-file
     
 workflows:
