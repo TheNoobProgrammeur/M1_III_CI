@@ -83,6 +83,6 @@ workflows:
             - build
       - e2e:
           requires:
-            -lint
-            -format
-            -test
+            - lint
+            - format
+            - test
