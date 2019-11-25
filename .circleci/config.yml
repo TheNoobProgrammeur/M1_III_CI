@@ -5,8 +5,29 @@ jobs:
       - image: circleci/node:10-buster # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
+      - restore_cache:
+        key:
+          - $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
       - run: echo $CACHE_VERSION
       - run: yarn global add node-gyp && yarn install
+
+      - save_cache:
+        paths: -node_modules
+        key:
+          - $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
+  lint:
+    docker:
+      - image: circleci/node:10-buster
+    steps:
       - run: yarn lint
+
+  format:
+    docker:
+      - image: circleci/node:10-buster
+    steps:
       - run: yarn format:check
+  test:
+    docker:
+      - image: circleci/node:10-buster
+    steps:
       - run: yarn test:ci
