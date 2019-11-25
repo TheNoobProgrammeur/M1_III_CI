@@ -57,7 +57,7 @@ jobs:
         environment:
           POSTGRES_USER: your_postgres_user
           POSTGRES_DB: your_postgres_test
-        
+
     steps:
       - checkout # check out the code in the project directory
       - restore_cache:
