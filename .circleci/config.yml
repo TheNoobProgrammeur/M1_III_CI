@@ -72,19 +72,12 @@ jobs:
             API_HOST: localhost
             API_PROTOCOL: http
   docker-build:
-    machine:
-      docker_layer_caching: true
+    machine: true
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
-            # fallback to using the latest cache if no exact match is found
-            - dependencies-
-     # DLC will explicitly cache layers here and try to avoid rebuilding.
       - run:
           name: build docker
-          command: docker -t app build .
+          command: docker build -t app  .
       - run:
           name: docker push 
           command: docker push aberthier15/m-iii-ci:app
