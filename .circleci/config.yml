@@ -74,6 +74,7 @@ jobs:
     machine: true
     steps:
       - checkout
+      - run: docker login --help
       - run: docker login --username=aberthier15 --password={{ .Environment.DOCKER_PSWD }}
       - run:
           name: build docker
