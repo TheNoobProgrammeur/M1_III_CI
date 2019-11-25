@@ -82,7 +82,7 @@ jobs:
       - run: docker run --rm app
       - run:
           name: docker push 
-          command: docker push docker push aberthier15/m-iii-ci:app
+          command: docker push aberthier15/m-iii-ci:app
 workflows:
   version: 2
   build-test-and-deploy:
