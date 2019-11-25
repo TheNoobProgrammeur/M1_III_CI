@@ -81,7 +81,7 @@ workflows:
       - test:
           requires:
             - build
-      -e2e:
+      - e2e:
           requires:
             -lint
             -format
