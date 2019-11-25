@@ -6,9 +6,10 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - restore_cache:
-        keys:
-          - {{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "package.json" }}
-          - {{ .Environment.CACHE_VERSION }}-dependencies-
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
       - run: echo $CACHE_VERSION
       - run: yarn global add node-gyp && yarn install
 
@@ -22,9 +23,10 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - restore_cache:
-        keys:
-          - {{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "package.json" }}
-          - {{ .Environment.CACHE_VERSION }}-dependencies-
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
       - run: yarn lint
 
   format:
@@ -33,9 +35,10 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - restore_cache:
-        keys:
-          - {{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "package.json" }}
-          - {{ .Environment.CACHE_VERSION }}-dependencies-
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
       - run: yarn format:check
   test:
     docker:
@@ -43,9 +46,10 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - restore_cache:
-        keys:
-          - {{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "package.json" }}
-          - {{ .Environment.CACHE_VERSION }}-dependencies-
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
       - run: yarn test:ci
 workflows:
   version: 1
