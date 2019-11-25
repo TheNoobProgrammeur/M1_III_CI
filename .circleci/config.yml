@@ -75,7 +75,7 @@ jobs:
     steps:
       - checkout
       - run: docker login --help
-      - run: docker login --username=aberthier15 --password={{ .Environment.DOCKER_PSWD }}
+      - run: docker login --password {{ .Environment.DOCKER_PSWD }} --username aberthier15 
       - run:
           name: build docker
           command: docker build  --tag aberthier15/app:1.0.0 .
