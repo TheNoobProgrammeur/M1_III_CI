@@ -77,8 +77,7 @@ jobs:
       - checkout
       - run: echo "$DOCKER_PSWD"
       - run:
-        command: |
-         echo "$DOCKER_PSWD" |  docker login -u "aberthier15" --password-stdin
+          command: echo "$DOCKER_PSWD" |  docker login -u "aberthier15" --password-stdin
       - run:
           name: build docker
           command: docker build  --tag aberthier15/app:1.0.0 .
