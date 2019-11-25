@@ -74,7 +74,7 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: docker login -u {{ .Environment.DOCKER_USER_NAME }} -p {{ .Environment.PSWD }}
+      - run: docker login -u {{ .Environment.DOCKER_USER_NAME }} -p {{ .Environment.PSWD }} https://hub.docker.com
       - run:
           name: build docker
           command: docker build  --tag aberthier15/app:1.0.0 .
