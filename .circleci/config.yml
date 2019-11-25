@@ -94,7 +94,7 @@ jobs:
             - dependencies-
       - run:
           name: yarn Doc
-          command: yarn buld:doc
+          command: yarn build:doc
 
       - store_artifacts:
           path: server-doc
