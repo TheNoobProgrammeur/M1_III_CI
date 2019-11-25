@@ -96,7 +96,7 @@ jobs:
           name: yarn Doc
           command: yarn generate module with-crud --name server-doc
       - store_artifacts:
-          destination: artifact-file
+          path: server-doc
     
 workflows:
   version: 2
