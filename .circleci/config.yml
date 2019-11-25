@@ -10,7 +10,6 @@ jobs:
             - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
             # fallback to using the latest cache if no exact match is found
             - dependencies-
-      - run: echo $CACHE_VERSION
       - run: yarn global add node-gyp && yarn install
       - save_cache:
           paths: node_modules
@@ -72,20 +71,36 @@ jobs:
             API_HOST: localhost
             API_PROTOCOL: http
   docker-build:
-    docker:
-      - image: circleci/node:10-buster
+    machine: true
     steps:
       - checkout
+      - run:
+          command: echo "$DOCKER_PSWD" |  docker login -u "aberthier15" --password-stdin
+      - run:
+          name: build docker
+          command: docker build  --tag aberthier15/app:1.0.1 .
+      - run:
+          name: docker push 
+          command: docker push aberthier15/app:1.0.1
+  doc:
+    docker:
+      - image: circleci/node:10-buster
+    working_directory: /tmp
+    steps:
+      - checkout # check out the code in the project directory
       - restore_cache:
           keys:
             - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
             # fallback to using the latest cache if no exact match is found
             - dependencies-
-      - setup_remote_docker: 
-          docker_layer_caching: true 
-     # DLC will explicitly cache layers here and try to avoid rebuilding.
-      - run: docker -t app build .
-      - run: docker push aberthier15/m-iii-ci:app
+      - run:
+          name: yarn Doc
+          command: yarn buld:doc
+
+      - store_artifacts:
+          path: /tmp/server-doc
+          destination: artifact-file
+    
 workflows:
   version: 2
   build-test-and-deploy:
@@ -106,9 +121,7 @@ workflows:
       - docker-build:
           requires:
             - lint
-            - format
             - test
-            - e2e
           filters:
             branches:
               only: master
