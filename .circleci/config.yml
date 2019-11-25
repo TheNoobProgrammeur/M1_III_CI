@@ -6,15 +6,16 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - restore_cache:
-        key:
+        keys:
           - $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
+          - $CACHE_VERSION-dependencies-
       - run: echo $CACHE_VERSION
       - run: yarn global add node-gyp && yarn install
 
       - save_cache:
-        paths: -node_modules
-        key:
-          - $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
+          paths: -node_modules
+          key:
+            - $CACHE_VERSION-dependencies-{{ checksum "package.json" }}
   lint:
     docker:
       - image: circleci/node:10-buster
