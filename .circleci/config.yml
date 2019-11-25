@@ -20,15 +20,29 @@ jobs:
     docker:
       - image: circleci/node:10-buster
     steps:
+      - checkout # check out the code in the project directory
+      - restore_cache:
       - run: yarn lint
 
   format:
     docker:
       - image: circleci/node:10-buster
     steps:
+      - checkout # check out the code in the project directory
+      - restore_cache:
       - run: yarn format:check
   test:
     docker:
       - image: circleci/node:10-buster
     steps:
+      - checkout # check out the code in the project directory
+      - restore_cache:
       - run: yarn test:ci
+workflows:
+  version: 1
+  build_and_test:
+    jobs:
+      - build
+      - lint
+      - format
+      - test
