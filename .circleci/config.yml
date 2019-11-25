@@ -10,7 +10,6 @@ jobs:
             - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
             # fallback to using the latest cache if no exact match is found
             - dependencies-
-      - run: echo $CACHE_VERSION
       - run: yarn global add node-gyp && yarn install
       - save_cache:
           paths: node_modules
@@ -82,7 +81,7 @@ jobs:
       - run: docker run --rm app
       - run:
           name: login
-          command: docker login -u {{.Environment.DOCKER_USER_NAME}} -p {{.Environment.PSWD}} 
+          command: docker login -u {{ .Environment.DOCKER_USER_NAME }} -p {{ .Environment.PSWD }} 
       - run:
           name: docker push 
           command: docker push aberthier15/m-iii-ci:app
