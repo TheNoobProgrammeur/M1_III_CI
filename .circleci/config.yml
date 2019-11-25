@@ -6,3 +6,5 @@
         steps:
             - checkout # check out the code in the project directory
             - run: yarn global add node-gyp && yarn install
+            - run: yarn lint && yarn format:check
+            - run: yarn test:ci
