@@ -76,12 +76,10 @@ jobs:
       - checkout
       - run:
           name: build docker
-          command: docker build  --tag aberthier15/m-iii-ci:app .
-      - run: ls -ls
-      - run: docker run --rm app 
+          command: docker build  --tag aberthier15/app:1.0.0 .
       - run:
           name: docker push 
-          command: docker push aberthier15/m-iii-ci:app
+          command: docker push aberthier15/app:1.0.0
 workflows:
   version: 2
   build-test-and-deploy:
