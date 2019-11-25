@@ -5,6 +5,8 @@
             - image: circleci/node:10-buster # the primary container, where your job's commands are run
         steps:
             - checkout # check out the code in the project directory
+            - run: echo $CACHE_VERSION
             - run: yarn global add node-gyp && yarn install
-            - run: yarn lint && yarn format:check
+            - run: yarn lint
+            - run: yarn format:check
             - run: yarn test:ci
