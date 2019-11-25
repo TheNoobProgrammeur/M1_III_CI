@@ -16,7 +16,7 @@ jobs:
       - save_cache:
           paths: -node_modules
           key:
-            - {{ .Environment.CACHE_VERSION }}-dependencies-{{ checksum "package.json" }}
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
   lint:
     docker:
       - image: circleci/node:10-buster
