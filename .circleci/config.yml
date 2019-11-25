@@ -72,10 +72,8 @@ jobs:
             API_HOST: localhost
             API_PROTOCOL: http
   docker-build:
-    docker:
-      - image: circleci/node:10-buster
     machine:
-      docker_layer_caching: true
+      - docker_layer_caching: true
     steps:
       - checkout
       - restore_cache:
