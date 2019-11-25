@@ -125,3 +125,7 @@ workflows:
           filters:
             branches:
               only: master
+      - doc:
+          requires:
+            - lint
+            - test
