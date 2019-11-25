@@ -62,10 +62,10 @@ jobs:
           API_PROTOCOL: http
     steps:
       - restore_cache:
-        keys:
-          - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
-          # fallback to using the latest cache if no exact match is found
-          - dependencies-
+          keys:
+            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+            # fallback to using the latest cache if no exact match is found
+            - dependencies-
       - run: yarn test:e2e
 workflows:
   version: 2
