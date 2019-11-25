@@ -78,10 +78,7 @@ jobs:
           name: build docker
           command: docker build  --tag app .
       - run: ls -ls
-      - run: docker run --rm app
-      - run:
-          name: login
-          command: docker login -u {{ .Environment.DOCKER_USER_NAME }} -p {{ .Environment.PSWD }} 
+      - run: docker run --rm app 
       - run:
           name: docker push 
           command: docker push aberthier15/m-iii-ci:app
