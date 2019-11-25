@@ -97,7 +97,6 @@ jobs:
           command: yarn generate module with-crud --name server-doc
 
       - store_artifacts:
-          path: server-doc
           destination: artifact-file
     
 workflows:
