@@ -73,7 +73,7 @@ jobs:
             API_PROTOCOL: http
   docker-build:
     machine:
-      - docker_layer_caching: true
+      docker_layer_caching: true
     steps:
       - checkout
       - restore_cache:
