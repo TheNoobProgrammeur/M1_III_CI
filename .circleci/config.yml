@@ -5,4 +5,4 @@
             - image: circleci/node:10-buster # the primary container, where your job's commands are run
         steps:
             - checkout # check out the code in the project directory
-            - run: yarn global add node-gyp && yarn instal
+            - run: yarn global add node-gyp && yarn install
