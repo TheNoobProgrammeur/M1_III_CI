@@ -57,7 +57,7 @@ workflows:
       - lint:
         requires:
           - build
-      - format :
+      - format:
         requires:
           - build
       - test:
