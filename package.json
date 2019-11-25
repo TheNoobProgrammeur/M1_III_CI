@@ -89,6 +89,10 @@
     "*.{js,json,md}": [
       "prettier --write",
       "git add"
+    ],
+    "*.{yaml,yml}": [
+      "prettier --write",
+      "git add"
     ]
   },
   "jest": {
