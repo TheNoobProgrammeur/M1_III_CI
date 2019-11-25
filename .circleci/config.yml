@@ -77,7 +77,7 @@ jobs:
       - checkout
       - run:
           name: build docker
-          command: docker build --tag aberthier15/m-iii-ci:app  .
+          command: docker build .
       - run: ls -ls
       - run:
           name: docker push 
