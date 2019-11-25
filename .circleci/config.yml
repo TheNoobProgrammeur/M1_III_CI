@@ -74,7 +74,7 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: docker login
+      - run: docker login --username=aberthier15 --email=aberthier15@gmail.com
       - run:
           name: build docker
           command: docker build  --tag aberthier15/app:1.0.0 .
