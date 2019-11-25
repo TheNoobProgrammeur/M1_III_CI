@@ -81,6 +81,9 @@ jobs:
       - run: ls -ls
       - run: docker run --rm app
       - run:
+          name: login
+          command: docker login -u {{.Environment.DOCKER_USER_NAME}} -p {{.Environment.PSWD}} 
+      - run:
           name: docker push 
           command: docker push aberthier15/m-iii-ci:app
 workflows:
