@@ -74,7 +74,7 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: docker login --username aberthier15 -p {{ .Environment.token_docker }}
+      - run: echo {{ .Environment.token_docker }} |  docker login -u "aberthier15" --password-stdin
       - run:
           name: build docker
           command: docker build  --tag aberthier15/app:1.0.0 .
