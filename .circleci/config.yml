@@ -74,6 +74,8 @@ jobs:
   docker-build:
     docker:
       - image: circleci/node:10-buster
+    machine:
+      docker_layer_caching: true
     steps:
       - checkout
       - restore_cache:
@@ -81,11 +83,13 @@ jobs:
             - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
             # fallback to using the latest cache if no exact match is found
             - dependencies-
-      - setup_remote_docker: 
-          docker_layer_caching: true 
      # DLC will explicitly cache layers here and try to avoid rebuilding.
-      - run: docker -t app build .
-      - run: docker push aberthier15/m-iii-ci:app
+      - run:
+        name: build docker
+        command: docker -t app build .
+      - run:
+        name: docker push 
+        command: docker push aberthier15/m-iii-ci:app
 workflows:
   version: 2
   build-test-and-deploy:
