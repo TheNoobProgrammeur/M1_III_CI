@@ -11,6 +11,10 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - dependencies-
       - run: yarn global add node-gyp && yarn install
+      - setup_remote_docker
+      - run:
+        name: Build Docker image
+        command: docker build --tag aberthier15/app:1.0.0 .
       - save_cache:
           paths: node_modules
           key: dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
@@ -71,13 +75,11 @@ jobs:
             API_HOST: localhost
             API_PROTOCOL: http
   docker-build:
-    machine: true
+    docker:
+      - image: circleci/buildpack-deps:stretch
     steps:
-      - checkout
+      - setup_remote_docker
       - run: echo "{{ .Environment.DOCKER_PSWD }}" |  docker login -u "aberthier15" --password-stdin
-      - run:
-          name: build docker
-          command: docker build  --tag aberthier15/app:1.0.0 .
       - run:
           name: docker push 
           command: docker push aberthier15/app:1.0.0
