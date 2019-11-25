@@ -12,11 +12,9 @@ jobs:
             - dependencies-
       - run: echo $CACHE_VERSION
       - run: yarn global add node-gyp && yarn install
-
       - save_cache:
-          paths: -node_modules
-          key:
-            - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+          paths: node_modules
+          key: dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
   lint:
     docker:
       - image: circleci/node:10-buster
