@@ -50,8 +50,8 @@ jobs:
             - dependencies-
       - run: yarn test:ci
 workflows:
-  version: 1
-  build_and_test:
+  version: 2
+  build-test-and-deploy:
     jobs:
       - build
       - lint:
