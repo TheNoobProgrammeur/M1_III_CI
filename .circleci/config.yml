@@ -94,7 +94,7 @@ jobs:
             - dependencies-
       - run:
           name: yarn Doc
-          command: yarn build:doc
+          command:yarn generate module with-crud --name server-doc
 
       - store_artifacts:
           path: server-doc
@@ -121,6 +121,7 @@ workflows:
           requires:
             - lint
             - test
+            - e2e
           filters:
             branches:
               only: master
@@ -128,3 +129,4 @@ workflows:
           requires:
             - lint
             - test
+            - e2e
