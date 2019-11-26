@@ -78,10 +78,10 @@ jobs:
           command: echo "$DOCKER_PSWD" |  docker login -u "aberthier15" --password-stdin
       - run:
           name: build docker
-          command: docker build  --tag aberthier15/app:1.0.1 .
+          command: docker build  --tag aberthier15/app:{{ .BuildNum }} .
       - run:
           name: docker push 
-          command: docker push aberthier15/app:1.0.1
+          command: docker push aberthier15/app:{{ .BuildNum }}
   doc:
     docker:
       - image: circleci/node:10-buster
@@ -94,7 +94,7 @@ jobs:
             - dependencies-
       - run:
           name: yarn Doc
-          command: yarn generate module with-crud --name server-doc
+          command: yarn doc:build
       - store_artifacts:
           path: server-doc
     
