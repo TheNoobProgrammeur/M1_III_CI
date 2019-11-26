@@ -75,7 +75,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: echo "$DOCKER_PSWD" |  docker login -u "aberthier15" --password-stdin
+          command: echo "$DOCKER_PSWD" |  docker login -u "$DOCKER_USER_NAME" --password-stdin
       - run:
           name: build docker
           command: docker build  --tag aberthier15/app:$CIRCLE_PREVIOUS_BUILD_NUM  .
