@@ -96,7 +96,7 @@ jobs:
           name: yarn Doc
           command: yarn doc:build
       - store_artifacts:
-          path: server-doc
+          path: doc-server
     
 workflows:
   version: 2
