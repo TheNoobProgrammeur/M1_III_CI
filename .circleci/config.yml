@@ -78,10 +78,10 @@ jobs:
           command: echo "$DOCKER_PSWD" |  docker login -u "aberthier15" --password-stdin
       - run:
           name: build docker
-          command: docker build  --tag aberthier15/app:{{ .BuildNum }} .
+          command: docker build  --tag aberthier15/app:$CIRCLE_PREVIOUS_BUILD_NUM  .
       - run:
           name: docker push 
-          command: docker push aberthier15/app:{{ .BuildNum }}
+          command: docker push aberthier15/app:$CIRCLE_PREVIOUS_BUILD_NUM 
   doc:
     docker:
       - image: circleci/node:10-buster
